@@ -1,27 +1,20 @@
-filename = 'datasets/acc_exp01_user01.txt';
-labelname = 'datasets/labels.txt';
-dataset = dlmread(filename, ' ');
-label = dlmread(labelname, ' ');
-
-colors = ['-r', '-g', '-b', '-c', '-m', '-y', '-r', '-g', 'b', 'c', 'm'];
-
-for k=1:3
-    subplot(3, 1, k);
-    plot(1:length(dataset), dataset(:, k), '-k')
-    hold on
-    for i=1:length(label)
-        exp = label(i, 1);
-        if exp == 2
-            break
+function datasets = load_datasets(directory)
+    dataset_files = dir([directory '/*.txt']);
+    max_size = 0;
+    len = length(dataset_files);
+    
+    for i = 1:len
+        current_size = size(dlmread([directory '/' dataset_files(i).name], ' '), 1);
+        if current_size > max_size
+            max_size = current_size;
         end
-        user = label(i, 2);
-        activity = label(i, 3);
-        start = label(i, 4);
-        finish = label(i, 5);
-        
-        x = start:finish;
-        plot(x, dataset(x, k), colors(activity))
+    end
+    
+    datasets = zeros(len, max_size, 3);
+    
+    for i = 1:len
+        dataset = dlmread([directory '/' dataset_files(i).name], ' ');
+        current_size = size(dataset, 1);   
+        datasets(i,:,:,:) = [dataset ; zeros(max_size - current_size, 3)];
     end
 end
-
-hold off
