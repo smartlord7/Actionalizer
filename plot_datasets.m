@@ -1,4 +1,4 @@
-function plot_datasets(datasets, act_colors, labels)
+function plot_datasets(datasets, act_colors, labels, activities)
    len = size(datasets, 1);
    label_i = 1;
    
@@ -36,8 +36,10 @@ function plot_datasets(datasets, act_colors, labels)
                start = labels(label_i, 4);
                finish = labels(label_i, 5);
                x = start:finish;
+               y_point = max(dataset(x, k));
                
                plot(x, dataset(x, k), act_colors(act));
+               text(start + 0.1, y_point + 0.1, activities(act),'Fontsize', 7);
                
                label_i = label_i + 1;
            end
