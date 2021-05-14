@@ -15,6 +15,6 @@ function datasets = load_datasets(directory)
     for i = 1:len
         dataset = dlmread([directory '/' dataset_files(i).name], ' ');
         current_size = size(dataset, 1);   
-        datasets(i,:,:,:) = [dataset ; zeros(max_size - current_size, 3)];
+        datasets(i,:,:,:) = [dataset ; NaN(max_size - current_size, 3)];
     end
 end
