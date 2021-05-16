@@ -4,6 +4,7 @@ function plot_dfts(datasets, fs, labels)
    ts = 1/fs;
    
    for i = 1:1
+       %subplot()
        dataset = reshape(datasets(i,:,:), size(datasets(i,:,:), 2), size(datasets(i,:,:), 3));
        init_label = label_i;
        
