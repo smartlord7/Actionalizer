@@ -1,9 +1,9 @@
-function plot_datasets(datasets, fs, act_colors, labels)
-   len = size(datasets, 1);
+function plot_datasets(datasets, fs, act_colors, labels, activities)
+   %len = size(datasets, 1);
    label_i = 1;
    ts = 1/fs;
    
-   for i = 1:1
+   for i = 1:2
        dataset = reshape(datasets(i,:,:), size(datasets(i,:,:), 2), size(datasets(i,:,:), 3));
        init_label = label_i;
        
@@ -37,12 +37,12 @@ function plot_datasets(datasets, fs, act_colors, labels)
                start = labels(label_i, 4);
                finish = labels(label_i, 5);
                x = start * ts/60:ts/60:finish * ts/60;
-               y_point = max(dataset(x, k));
+               y_point = max(dataset(start:finish, k)) + 0.1;
                
                plt_title = sprintf('Experience %d, User %d', exp, user);
                title(plt_title);
-               plot(x, dataset(x, k), act_colors(act));
-               text(start + 0.1, y_point + 0.1, activities(act),'Fontsize', 7);
+               plot(x, dataset(start:finish, k), act_colors(act));
+               text(start*ts/60, y_point, activities(act),'Fontsize', 7);
                label_i = label_i + 1;
            end
            
