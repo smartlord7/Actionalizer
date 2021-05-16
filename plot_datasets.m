@@ -3,7 +3,7 @@ function plot_datasets(datasets, fs, act_colors, labels, activities)
    label_i = 1;
    ts = 1/fs;
    
-   for i = 1:2
+   for i = 1:1
        dataset = reshape(datasets(i,:,:), size(datasets(i,:,:), 2), size(datasets(i,:,:), 3));
        init_label = label_i;
        

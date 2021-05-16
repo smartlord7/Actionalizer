@@ -3,11 +3,11 @@ function plot_dfts(datasets, fs, labels)
    label_i = 1;
    ts = 1/fs;
    
-   for i = 1:len
+   for i = 1:1
        dataset = reshape(datasets(i,:,:), size(datasets(i,:,:), 2), size(datasets(i,:,:), 3));
        init_label = label_i;
        
-       for k = 1:3
+       for k = 1:1
            label_i = init_label;
            
            while 1
