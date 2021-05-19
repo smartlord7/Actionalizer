@@ -1,4 +1,4 @@
-function plot_window(dataset, interval, window_function, window_name, i)
+function plot_windowed_dft(dataset, interval, window_function, window_name, i)
     t_frame = interval(end) - interval(1) + 1;
     n_frame = round(t_frame);
     window = window_function(n_frame);
