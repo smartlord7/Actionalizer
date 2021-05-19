@@ -6,7 +6,7 @@ function plot_window(dataset, interval, window_function, window_name, i)
     dimensions = ["X", "Y", "Z"];
     
     for k=1:3
-        subplot(4, 3, i*3 + k);
+        subplot(5, 3, i*3 + k);
         values = dataset(interval, k).*window;
         
         dft = abs(fftshift(fft(values)));
