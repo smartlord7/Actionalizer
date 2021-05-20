@@ -14,7 +14,7 @@ function [num_act_ocurrences, acts, acts_means, dft_freqs, dft_means] = prepare_
    label_i = 1;
    
    for i = 1:len
-       dataset = reshape(datasets(i,:,:), size(datasets(i,:,:), 2), size(datasets(i,:,:), 3));
+       dataset = cell2mat(datasets(i));
        init_label = label_i;
        
        label_i = init_label;
