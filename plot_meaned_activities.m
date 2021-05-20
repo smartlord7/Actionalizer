@@ -1,4 +1,6 @@
 function plot_meaned_activities(acts, axis, act_names)
+    figure;
+
     for i = 1:length(act_names)
         values = cell2mat(acts(i));
         n = 1:length(values);
@@ -8,5 +10,6 @@ function plot_meaned_activities(acts, axis, act_names)
     end
     
     main_ttl = sprintf('Meaned activities - AXIS: %s', get_axis_name(axis));
+    sgtitle(main_ttl);
 end
 

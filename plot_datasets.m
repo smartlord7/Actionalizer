@@ -11,7 +11,7 @@ function plot_datasets(datasets, fs, act_colors, labels, activities)
            label_i = init_label;
            subplot(3, 1, k);
            plot(ts/60:ts/60:(length(dataset) * ts)/60, dataset(:, k), 'k');
-           y_lbl = sprintf('ACC angle - %s (rad/s^2)', axis_idx_to_axis_name(k));
+           y_lbl = sprintf('ACC angle - %s (m/s^2)', axis_idx_to_axis_name(k));
            ylabel(y_lbl);
            
            xlabel('Time (min)')

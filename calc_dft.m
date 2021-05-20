@@ -1,6 +1,6 @@
 function [f, m_x] = calc_dft(dataset, fs, start, finish)
     N = finish - start + 1;
-
+    dataset = detrend(dataset);
     dft_x = fftshift(fft(dataset));
 
     if mod(N, 2) == 0
