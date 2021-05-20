@@ -8,6 +8,6 @@ function [f, m_x] = calc_dft(dataset, fs, start, finish)
     else
         f = -fs/2 + fs/(2 * N):fs/N:fs/2-fs/(2 * N);
     end
-
+    
     m_x = abs(dft_x);
 end

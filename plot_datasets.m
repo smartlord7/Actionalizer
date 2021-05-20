@@ -1,9 +1,9 @@
 function plot_datasets(datasets, fs, act_colors, labels, activities)
-   %len = size(datasets, 1);
+   len = size(datasets, 1);
    label_i = 1;
    ts = 1/fs;
    
-   for i = 1:3
+   for i = 1:len
        dataset = reshape(datasets(i,:,:), size(datasets(i,:,:), 2), size(datasets(i,:,:), 3));
        init_label = label_i;
        
@@ -11,15 +11,8 @@ function plot_datasets(datasets, fs, act_colors, labels, activities)
            label_i = init_label;
            subplot(3, 1, k);
            plot(ts/60:ts/60:(length(dataset) * ts)/60, dataset(:, k), 'k');
-           
-           switch k
-               case 1
-                   ylabel('ACC angle - x (rad)');
-               case 2
-                   ylabel('ACC angle - y (rad)');
-               case 3
-                   ylabel('ACC angle - z (rad)');
-           end
+           y_lbl = sprintf('ACC angle - %s (rad/s^2)', axis_idx_to_axis_name(k));
+           ylabel(y_lbl);
            
            xlabel('Time (min)')
            
@@ -49,6 +42,6 @@ function plot_datasets(datasets, fs, act_colors, labels, activities)
            hold off;
        end
        
-       pause(5);
+       pause(2);
    end
 end

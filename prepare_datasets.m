@@ -1,8 +1,10 @@
-function [num_act_ocurrences, dft_freqs, dft_means] = calc_activities_mean_dft(datasets, dim, fs, labels, activities)
+function [num_act_ocurrences, acts, dft_freqs, dft_means] = prepare_datasets(datasets, dim, fs, labels, activities)
    num_act = length(activities);
    dft_means = cell(1, num_act);
    dft_freqs = cell(1, num_act);
+   acts = cell(1, num_act);
    num_act_ocurrences = zeros(1, num_act);
+   min_act_size = zeros(1, num_act);
    dyn_act_size = 2000;
    static_act_size = 2500;
    transition_act_size = 1500;
@@ -32,6 +34,10 @@ function [num_act_ocurrences, dft_freqs, dft_means] = calc_activities_mean_dft(d
 
            num_act_ocurrences(act) = num_act_ocurrences(act) + 1;
            l = size(act_frag, 1);
+           
+           if l < min_act_size(act) || min_act_size(act) == 0 
+               min_act_size(act) = l;
+           end
 
            if act < 4
                act_frag = [act_frag ; zeros(dyn_act_size - l, 1)];
@@ -43,10 +49,12 @@ function [num_act_ocurrences, dft_freqs, dft_means] = calc_activities_mean_dft(d
 
            [f, m_x] = calc_dft(act_frag, fs, 0, length(act_frag));
 
-           if isempty(cell2mat(dft_freqs(act)))
+           if num_act_ocurrences(act) == 1
+               acts(act) = {act_frag};
                dft_freqs(act) = {f(1:end - 1)};
                dft_means(act) = {m_x};
            else
+               acts(act) = {cell2mat(acts(act)) + act_frag};
                dft_means(act) = {cell2mat(dft_means(act)) + m_x};   
            end
 
@@ -57,5 +65,8 @@ function [num_act_ocurrences, dft_freqs, dft_means] = calc_activities_mean_dft(d
    
    for i = 1:length(activities)
        dft_means(i) = {cell2mat(dft_means(i)) / num_act_ocurrences(i)};
+       values = cell2mat(acts(i));
+       acts(i) = {values / num_act_ocurrences(i)};
+       acts(i) = {values(1:min_act_size(i))};
    end    
 end
