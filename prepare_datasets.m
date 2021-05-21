@@ -1,7 +1,8 @@
-function [num_act_ocurrences, acts_means, dft_freqs, dft_means] = prepare_datasets(datasets, dim, fs, labels, activities)
+function [num_act_ocurrences, acts, acts_means, dft_freqs, dft_means] = prepare_datasets(datasets, dim, fs, labels, activities)
    num_act = length(activities);
    dft_means = cell(1, num_act);
    dft_freqs = cell(1, num_act);
+   acts = cell(1, num_act);
    acts_means = cell(1, num_act);
    num_act_ocurrences = zeros(1, num_act);
    min_act_size = zeros(1, num_act);
@@ -42,6 +43,7 @@ function [num_act_ocurrences, acts_means, dft_freqs, dft_means] = prepare_datase
            [f, m_x] = calc_dft(act_padded, fs, 0, length(act_padded));
 
            if num_act_ocurrences(act) == 1
+               acts(act) = {{}};
                acts_means(act) = {act_padded};
                dft_freqs(act) = {f(1:end - 1)};
                dft_means(act) = {m_x};
@@ -49,6 +51,8 @@ function [num_act_ocurrences, acts_means, dft_freqs, dft_means] = prepare_datase
                acts_means(act) = {cell2mat(acts_means(act)) + act_padded};
                dft_means(act) = {cell2mat(dft_means(act)) + m_x};   
            end
+           
+           acts{act}{num_act_ocurrences(act)} = act_frag;
        end
   
    end
