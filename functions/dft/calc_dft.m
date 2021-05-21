@@ -34,5 +34,5 @@ function [f, m_x] = calc_dft(dataset, fs, start, finish)
     end
     
     % obtain the magnitude vector
-    m_x = (abs(dft_x) ./ N) * 2;
+    m_x = abs(dft_x) ;
 end

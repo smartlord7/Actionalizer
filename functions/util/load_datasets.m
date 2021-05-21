@@ -1,13 +1,3 @@
-%{
-@def load_datasets
-@brief Function that loads the required data.
-
-@param directory
-Text file that contains the values of the experiences.
-
-@return datasets
-Cell matrix with all of the values
-%}
 function datasets = load_datasets(directory)
     dataset_files = dir([directory '/*.txt']);
     len = length(dataset_files);

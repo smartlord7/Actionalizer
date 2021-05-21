@@ -26,6 +26,7 @@ Vector with labels describing the experiences performed by the users.
 
 @return steps_table - table containing the values obtained.
 %}
+
 function steps_table = calc_users_steps_per_min(datasets, fs, min_freq, thres_ref, num_users, dynamic_acts, labels) 
     
     users = 1:1:num_users;

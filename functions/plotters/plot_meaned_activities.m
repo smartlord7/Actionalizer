@@ -1,6 +1,6 @@
 %{
 @def plot_meaned_activities
-@brief 
+@brief
 
 @param acts
 Datasets to containing the values obtained in the experiences.

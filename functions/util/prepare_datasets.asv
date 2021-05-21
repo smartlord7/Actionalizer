@@ -1,10 +1,10 @@
 
-
-function [num_act_ocurrences, acts_means, dft_freqs, dft_means] = prepare_datasets(datasets, dim, fs, unif_sizes, labels, activities)
+function [num_act_ocurrences, acts_means, dft_freqs, dft_means, solver_slopes, ] = prepare_datasets(datasets, dim, fs, unif_sizes, labels, activities)
    num_act = length(activities);
    dft_means = cell(1, num_act);
    dft_freqs = cell(1, num_act);
    acts_means = cell(1, num_act);
+   slopes = cell(1, num_act);
    num_act_ocurrences = zeros(1, num_act);
    min_act_size = zeros(1, num_act);
    dyn_act_size = unif_sizes(1);
@@ -39,17 +39,21 @@ function [num_act_ocurrences, acts_means, dft_freqs, dft_means] = prepare_datase
                act_padded = [act_frag ; zeros(static_act_size - l, 1)];    
            else
                act_padded = [act_frag ; zeros(transition_act_size - l, 1)];
-           end          
+           end
+           
+           slope = get_abs_slope(1:length(act_padded), act_padded);
 
            [f, m_x] = calc_dft(act_padded, fs, 1, length(act_padded));
-
+           
            if num_act_ocurrences(act) == 1
                acts_means(act) = {act_padded};
                dft_freqs(act) = {f(1:end)};
                dft_means(act) = {m_x};
+               slopes(act) = {slope};
            else
                acts_means(act) = {cell2mat(acts_means(act)) + act_padded};
-               dft_means(act) = {cell2mat(dft_means(act)) + m_x};   
+               dft_means(act) = {cell2mat(dft_means(act)) + m_x};
+               slopes(act) = {cell2mat(slopes(act)) + slope};
            end
        end
   
@@ -60,5 +64,6 @@ function [num_act_ocurrences, acts_means, dft_freqs, dft_means] = prepare_datase
        values = cell2mat(acts_means(i));
        acts_means(i) = {values / num_act_ocurrences(i)};
        acts_means(i) = {values(1:min_act_size(i))};
+       slopes(i) = {cell2mat(slopes(i)) / num_act_ocurrences(i)};
    end
 end
