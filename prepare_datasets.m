@@ -1,8 +1,7 @@
-function [num_act_ocurrences, acts, acts_means, dft_freqs, dft_means] = prepare_datasets(datasets, dim, fs, labels, activities)
+function [num_act_ocurrences, acts_means, dft_freqs, dft_means] = prepare_datasets(datasets, dim, fs, labels, activities)
    num_act = length(activities);
    dft_means = cell(1, num_act);
    dft_freqs = cell(1, num_act);
-   acts = cell(1, num_act);
    acts_means = cell(1, num_act);
    num_act_ocurrences = zeros(1, num_act);
    min_act_size = zeros(1, num_act);
@@ -10,25 +9,18 @@ function [num_act_ocurrences, acts, acts_means, dft_freqs, dft_means] = prepare_
    static_act_size = 2500;
    transition_act_size = 1500;
     
-   len = size(datasets, 1);
-   label_i = 1;
+   len = length(datasets);
    
    for i = 1:len
        dataset = cell2mat(datasets(i));
-       init_label = label_i;
        
-       label_i = init_label;
+       indexes = find(labels(:, 1) == i);
            
-       while 1
-           exp = labels(label_i, 1);
-
-           if exp ~= i
-                break;
-           end
-
-           act = labels(label_i, 3);
-           start = labels(label_i, 4);
-           finish = labels(label_i, 5);
+       for j=1:length(indexes)
+           index = indexes(j);
+           act = labels(index, 3);
+           start = labels(index, 4);
+           finish = labels(index, 5);
 
            act_frag = dataset(start:finish, dim);
 
@@ -50,7 +42,6 @@ function [num_act_ocurrences, acts, acts_means, dft_freqs, dft_means] = prepare_
            [f, m_x] = calc_dft(act_padded, fs, 0, length(act_padded));
 
            if num_act_ocurrences(act) == 1
-               acts(act) = {{}};
                acts_means(act) = {act_padded};
                dft_freqs(act) = {f(1:end - 1)};
                dft_means(act) = {m_x};
@@ -58,10 +49,6 @@ function [num_act_ocurrences, acts, acts_means, dft_freqs, dft_means] = prepare_
                acts_means(act) = {cell2mat(acts_means(act)) + act_padded};
                dft_means(act) = {cell2mat(dft_means(act)) + m_x};   
            end
-           
-           acts{act}{num_act_ocurrences(act)} = act_frag;
-
-           label_i = label_i + 1;
        end
   
    end
@@ -71,5 +58,5 @@ function [num_act_ocurrences, acts, acts_means, dft_freqs, dft_means] = prepare_
        values = cell2mat(acts_means(i));
        acts_means(i) = {values / num_act_ocurrences(i)};
        acts_means(i) = {values(1:min_act_size(i))};
-   end    
+   end
 end
