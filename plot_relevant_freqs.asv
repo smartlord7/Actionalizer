@@ -1,9 +1,0 @@
-function plot_relevant_freqs(freqs, act_dfts, threshold)
-    figure;
-
-    for i = 1:length(act_dfts)
-       [rlv_freqs, rlv_freqs_m] = extract_relevant_freqs(freqs, act_dfts, thresold);
-       subplot(4, 3, i);
-       stem(rlv_freqs, rlv_freqs_m)
-    end
-end

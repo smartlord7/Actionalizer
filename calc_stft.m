@@ -18,10 +18,14 @@ function [relev_freqs, relev_mags, times] = calc_stft(x, fs, window_type, window
     
     t = 0:ts:(N-1)*ts;
     
-    for i = 1:n_frame-n_overlap:n-n_frame+1
-        x_frame = detrend(x(i:i+n_frame-1)).*window;
+    for i = 1:n_frame-n_overlap:N-n_frame+1
+        x_frame = x(i:i+n_frame-1);
+        x_frame = dtrend(x_frame);
+        x_frame = x_frame.*window;
         
-        m_X_frame = abs(fftshift(fft(x_frame)));
+        X_frame = fftshift(fft(x_frame));
+        
+        m_X_frame = abs(X_frame);
         m_X_frame = (m_X_frame./n_frame)*2;
         
         mag = max(m_X_frame);
