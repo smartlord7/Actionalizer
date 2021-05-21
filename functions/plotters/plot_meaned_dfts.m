@@ -1,18 +1,21 @@
 %{
 @def plot_meaned_dfts
-@brief
+@brief Function that plots the meaned DFTs of all of the activities.
 
 @param freqs
+Vector that contains possible frequencies existent in the signal.
 
 @param meaned_dfts
 
+
 @param num_ocurrences
 
-@param activities
 
 @param activities
+
 
 @param axis
+
 
 %}
 function plot_meaned_dfts(freqs, meaned_dfts, num_ocurrences, activities, axis)

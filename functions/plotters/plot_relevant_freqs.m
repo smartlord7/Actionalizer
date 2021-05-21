@@ -1,15 +1,18 @@
 %{
 @def plot_relevant_freqs
-@brief
+@brief Function that plots the relevant frequencies of a given signal.
 
 @param freqs
+Vector that contains possible frequencies existent in the signal.
 
 @param act_dfts
+Vector that contains the signal's DFT.
 
 @param act_names
-Vector with names atributed to each activity.
+Vector with names assigned to each activity.
 
 @param threshold
+Percentage relative to the max DFT value to consider when extracting the relevant frequencies.
 
 %}
 function plot_relevant_freqs(freqs, act_dfts, act_names, threshold)

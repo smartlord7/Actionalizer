@@ -1,3 +1,22 @@
+%{
+@def group_activities
+@brief Function that gets the data about all of the experiences performed
+by the given user.
+
+@param datasets
+Datasets with information about all of the experiences.
+
+@param user
+User to be considered.
+
+@param labels
+Matrix with information about all of the experiences
+
+@param act_indexes
+Vector with codes associated to each type of activity.
+
+@return grouped - set of all of the activities done by the user.
+%}
 function [grouped] = group_activities(datasets, user, labels, act_indexes)
     grouped = {};
     act_occurrences = zeros(1, 12);
