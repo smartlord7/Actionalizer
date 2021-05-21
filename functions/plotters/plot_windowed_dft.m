@@ -1,7 +1,7 @@
-function plot_windowed_dft(dataset, fs, interval, window_function, title_str, i)
-    t_frame = interval(end) - interval(1) + 1;
-    n_frame = round(t_frame);
-    window = window_function(n_frame);
+function plot_windowed_dft(dataset, fs, interval, win_func, title_str, i)
+    t_win = interval(end) - interval(1) + 1;
+    n_win = round(t_win);
+    window = win_func(n_win);
      
     for k = 1:3
         subplot(5, 3, 3 * i + k);
