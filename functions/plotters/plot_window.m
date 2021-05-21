@@ -3,10 +3,10 @@
 @brief Function that plots a given window.
 
 @param win_func
-Pointer to the function associated with type of window to plot.
+Handler of the function associated with the type of window to plot.
 
 @param win_size
-Size of window to consider.
+Size of the window to consider.
 
 @param win_name
 Name assigned to the type of window considered.

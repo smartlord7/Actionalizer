@@ -6,16 +6,16 @@
 Vector that contains possible frequencies existent in the signal.
 
 @param meaned_dfts
-
+The mean of all activity dfts.
 
 @param num_ocurrences
-
+The number of ocurrences of each activity in all datasets.
 
 @param activities
-
+List containing the activity names.
 
 @param axis
-
+The current dataset axis (1, 2, 3).
 
 %}
 function plot_meaned_dfts(freqs, meaned_dfts, num_ocurrences, activities, axis)

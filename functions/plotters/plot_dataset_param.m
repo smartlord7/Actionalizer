@@ -1,3 +1,27 @@
+%{
+@def plot_dataset_param
+@brief Plot some param of the dataset (slope, max magnitude).
+
+@param meaned_acts
+Means for each activity.
+
+@param act_names
+List of the activity names.
+
+@param param_func
+Function to get the param to plot (get_abs_slope, get_max_dist).
+
+@param param_name
+The name of the param.
+
+@param axis
+Axis index (1, 2 or 3)
+
+@param colors
+List with colors of each activity.
+
+%}
+
 function plot_dataset_param(meaned_acts, act_names, param_func, param_name, axis, colors, dx, dy)  
     figure;
     

@@ -3,19 +3,19 @@
 @brief Function that plots the dataset describing the experiences.
 
 @param datasets
-Datasets to containing the values obtained in the experiences.
+Datasets that contain the values obtained in the experiences.
 
 @param fs
-Sample frequency used when capturing the values on the dataset.
+Sampling frequency used when capturing the values on the dataset.
 
 @param labels
-Vector with labels describing the experiences performed by the users.
+Vector with the labels describing the experiences performed by the users.
 
 @param activities
-Vector with names atributed to each activity.
+Vector with the names assigned to each activity.
 
 @param act_colors
-Vector with color RGB codes to assign to mark each activity.
+Vector with the RGB color codes to assign to mark each activity.
 %}
 function plot_datasets(datasets, fs, labels, activities, act_colors)
     len = length(datasets);

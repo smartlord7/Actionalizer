@@ -1,3 +1,37 @@
+%{
+@def prepare_datasets
+@brief Function to prepare the different datasets and get the frequence,
+magnitude and slopes means for each activity.
+
+@param datasets
+Cell of different experience datasets.
+
+@param dim
+Current dimension of the dataset (X, Y, Z).
+
+@param fs
+Sample frequency used capturing the values on the dataset.
+
+@param unif_sizes
+Unique sizes for each activity (0 padding)
+
+@param labels
+Description of the dataset .
+
+@param activities
+Array with the activities names.
+
+@return
+    num_act_ocurrences - array with the number of occurences of each activity
+    acts_means - means of each activity
+    dft_freqs - means of the frequences of different activities with 0 padding
+    dft_means - means of the magnitudes of different activities with 0 padding
+    solver_slopes - means of different activities without 0 padding
+    solver_freqs - means of the frequences of different activities without 0 padding
+    solver_mags - means of the magnitudes of different activities without 0 padding
+
+%}
+
 function [num_act_ocurrences, acts_means, dft_freqs, dft_means, solver_slopes, solver_freqs, solver_mags] = prepare_datasets(datasets, dim, fs, unif_sizes, labels, activities)
    num_act = length(activities);
    dft_means = cell(1, num_act);

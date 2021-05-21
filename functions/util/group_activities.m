@@ -1,19 +1,19 @@
 %{
 @def group_activities
 @brief Function that gets the data about all of the experiences performed
-by the given user.
+by a given user.
 
 @param datasets
-Datasets with information about all of the experiences.
+Datasets with the information about all the experiences.
 
 @param user
 User to be considered.
 
 @param labels
-Matrix with information about all of the experiences
+Matrix with the information about all of the experiences.
 
 @param act_indexes
-Vector with codes associated to each type of activity.
+Vector with the indexes associated to each type of activity.
 
 @return grouped - set of all of the activities done by the user.
 %}

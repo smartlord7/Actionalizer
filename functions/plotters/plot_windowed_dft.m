@@ -1,6 +1,6 @@
 %{
 @def plot_windowed_dft
-@brief Function that plots a given windowed dft.
+@brief Function that plots a windowed dft.
 
 @param dataset
 Dataset with the values obtained during the experiments.
