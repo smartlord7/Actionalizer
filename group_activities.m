@@ -1,4 +1,4 @@
-function [grouped] = group_activities(datasets, user, labels, get_activities)
+function [grouped] = group_activities(datasets, user, labels, act_indexes)
     grouped = {};
     act_occurrences = zeros(1, 12);
     
@@ -18,7 +18,7 @@ function [grouped] = group_activities(datasets, user, labels, get_activities)
             start = labels(index, 4);
             finish = labels(index, 5);
             act_occurrences(act) = act_occurrences(act) + 1;
-            if ismember(act, get_activities)
+            if ismember(act, act_indexes)
                 grouped{act}{act_occurrences(act)} = dataset(start:finish, :);
             end
         end
