@@ -1,22 +1,52 @@
+%{
+@def prepare_datasets
+@brief 
 
+@param datasets
+Datasets describing the experiences performed by the users.
+
+@param dim
+Dimension to be considered (x, y or z);
+
+@param fs
+Sample frequency used when capturing the data values.
+
+@param min_freq
+Minimal frequency to consider when applying a low-pass filter to the data.
+
+@param unif_sizes
+Vector with possible sizes to be reserved for each type of activity.
+
+@param labels
+Vector with labels describing the experiences performed by the users.
+
+@param activities
+Vector with names to be associated with each type of activity.
+
+@return num_act_ocurrences - 
+        acts_means - 
+        dft_freqs - 
+        dft_means - 
+%}
 function [num_act_ocurrences, acts_means, dft_freqs, dft_means] = prepare_datasets(datasets, dim, fs, unif_sizes, labels, activities)
-   num_act = length(activities);
-   dft_means = cell(1, num_act);
-   dft_freqs = cell(1, num_act);
-   acts_means = cell(1, num_act);
-   num_act_ocurrences = zeros(1, num_act);
-   min_act_size = zeros(1, num_act);
-   dyn_act_size = unif_sizes(1);
-   static_act_size = unif_sizes(2);
-   transition_act_size = unif_sizes(3);
-    
-   len = length(datasets);
-   
-   for i = 1:len
+    % initialize variables
+    num_act = length(activities);
+    dft_means = cell(1, num_act);
+    dft_freqs = cell(1, num_act);
+    acts_means = cell(1, num_act);
+    num_act_ocurrences = zeros(1, num_act);
+    min_act_size = zeros(1, num_act);
+    dyn_act_size = unif_sizes(1);
+    static_act_size = unif_sizes(2);
+    transition_act_size = unif_sizes(3);
+
+    len = length(datasets);
+
+    for i = 1:len
        dataset = cell2mat(datasets(i));
-       
+
        indexes = find(labels(:, 1) == i);
-           
+
        for j=1:length(indexes)
            index = indexes(j);
            act = labels(index, 3);
@@ -27,7 +57,7 @@ function [num_act_ocurrences, acts_means, dft_freqs, dft_means] = prepare_datase
 
            num_act_ocurrences(act) = num_act_ocurrences(act) + 1;
            l = size(act_frag, 1);
-           
+
            if l < min_act_size(act) || min_act_size(act) == 0 
                min_act_size(act) = l;
            end
@@ -51,13 +81,13 @@ function [num_act_ocurrences, acts_means, dft_freqs, dft_means] = prepare_datase
                dft_means(act) = {cell2mat(dft_means(act)) + m_x};   
            end
        end
-  
-   end
-   
-   for i = 1:length(activities)
+
+    end
+
+    for i = 1:length(activities)
        dft_means(i) = {cell2mat(dft_means(i)) / num_act_ocurrences(i)};
        values = cell2mat(acts_means(i));
        acts_means(i) = {values / num_act_ocurrences(i)};
        acts_means(i) = {values(1:min_act_size(i))};
-   end
+    end
 end
