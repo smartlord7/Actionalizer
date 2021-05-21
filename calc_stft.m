@@ -26,7 +26,6 @@ function [relev_freqs, relev_mags, times] = calc_stft(x, fs, window_type, window
         X_frame = fftshift(fft(x_frame));
         
         m_X_frame = abs(X_frame);
-        m_X_frame = (m_X_frame./n_frame)*2;
         
         mag = max(m_X_frame);
         
