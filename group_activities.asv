@@ -1,0 +1,23 @@
+function [grouped] = group_activities(datasets, exp, labels)
+    dataset = cell2mat(datasets(exp));
+    get_activites = [1, 2, 3];
+    
+    indexes = find(labels(:, 1) == exp);
+    
+    % 12 -> number of different actions
+    act_occurrences = zeros(1, 12);
+    
+    grouped = {};
+    for i = 1:length(act_occu)
+    
+    for j = 1:length(indexes)
+        index = indexes(j);
+        act = labels(index, 3);
+        start = labels(index, 4);
+        finish = labels(index, 5);
+        act_occurrences(act) = act_occurrences(act) + 1;
+        if ismember(act, get_activites)
+            grouped{act}{act_occurrences(act)} = dataset(start:finish);
+        end
+    end
+end
