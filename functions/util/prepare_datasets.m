@@ -1,13 +1,14 @@
-function [num_act_ocurrences, acts_means, dft_freqs, dft_means] = prepare_datasets(datasets, dim, fs, labels, activities)
+
+function [num_act_ocurrences, acts_means, dft_freqs, dft_means] = prepare_datasets(datasets, dim, fs, unif_sizes, labels, activities)
    num_act = length(activities);
    dft_means = cell(1, num_act);
    dft_freqs = cell(1, num_act);
    acts_means = cell(1, num_act);
    num_act_ocurrences = zeros(1, num_act);
    min_act_size = zeros(1, num_act);
-   dyn_act_size = 2000;
-   static_act_size = 2500;
-   transition_act_size = 1500;
+   dyn_act_size = unif_sizes(1);
+   static_act_size = unif_sizes(2);
+   transition_act_size = unif_sizes(3);
     
    len = length(datasets);
    
@@ -39,7 +40,7 @@ function [num_act_ocurrences, acts_means, dft_freqs, dft_means] = prepare_datase
                act_padded = [act_frag ; zeros(transition_act_size - l, 1)];
            end          
 
-           [f, m_x] = calc_dft(act_padded, fs, 0, length(act_padded));
+           [f, m_x] = calc_dft(act_padded, fs, start - finish);
 
            if num_act_ocurrences(act) == 1
                acts_means(act) = {act_padded};
