@@ -1,54 +1,41 @@
-function plot_datasets(datasets, fs, act_colors, labels, activities)
-   %len = size(datasets, 1);
-   label_i = 1;
-   ts = 1/fs;
+function plot_datasets(datasets, fs, labels, activities, act_colors)
+    len = length(datasets);
+    ts = 1/fs;
    
-   for i = 1:3
-       dataset = reshape(datasets(i,:,:), size(datasets(i,:,:), 2), size(datasets(i,:,:), 3));
-       init_label = label_i;
-       
-       for k = 1:3
-           label_i = init_label;
-           subplot(3, 1, k);
-           plot(ts/60:ts/60:(length(dataset) * ts)/60, dataset(:, k), 'k');
-           
-           switch k
-               case 1
-                   ylabel('ACC angle - x (rad)');
-               case 2
-                   ylabel('ACC angle - y (rad)');
-               case 3
-                   ylabel('ACC angle - z (rad)');
-           end
-           
-           xlabel('Time (min)')
-           
-           hold on
-           
-           while 1
-               exp = labels(label_i, 1);
+    for i = 1:len
+        figure;
+        dataset = cell2mat(datasets(i));
 
-               if exp ~= i
-                    break;
-               end
-
-               user = labels(label_i, 2);
-               act = labels(label_i, 3);
-               start = labels(label_i, 4);
-               finish = labels(label_i, 5);
-               x = start * ts/60:ts/60:finish * ts/60;
-               y_point = max(dataset(start:finish, k)) + 0.1;
-               
-               plt_title = sprintf('Experience %d, User %d', exp, user);
-               title(plt_title);
-               plot(x, dataset(start:finish, k), act_colors(act));
-               text(start*ts/60, y_point, activities(act),'Fontsize', 7);
-               label_i = label_i + 1;
-           end
-           
-           hold off;
-       end
+        indexes = find(labels(:,1) == i);
        
-       pause(5);
-   end
+        exp = i;
+        
+        for k = 1:3
+            subplot(3, 1, k);
+            plot(ts/60:ts/60:(length(dataset) * ts)/60, dataset(:, k), 'k');
+            y_lbl = sprintf('ACC angle - %s (m/s^2)', get_axis_name(k));
+            ylabel(y_lbl);
+            xlabel('Time (min)')
+           
+            hold on
+
+            for j=1:length(indexes)
+                index = indexes(j);
+                user = labels(index, 2);
+                act = labels(index, 3);
+                start = labels(index, 4);
+                finish = labels(index, 5);
+                x = start * ts/60:ts/60:finish * ts/60;
+                y_point = mean(dataset(start:finish, k)) + 0.7 * (-1)^index;
+                color_hex = char(act_colors(act));
+                color = sscanf(color_hex(2:end),'%2x%2x%2x',[1 3])/255;
+                plot(x, dataset(start:finish, k), 'Color', color);
+                text(start*ts/60, y_point, activities(act),'Fontsize', 7);
+                plt_title = sprintf('Experience %d, User %d', exp, user);
+                sgtitle(plt_title);
+            end
+
+            hold off;
+        end
+    end
 end
