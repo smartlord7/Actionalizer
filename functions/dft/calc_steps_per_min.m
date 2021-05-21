@@ -20,7 +20,7 @@ function steps_per_min = calc_steps_per_min(data, freq, fs, thres_ref)
     % calculate vertical acceleration
     vert_ac = dot(grav_ac, user_ac);
     
-    [freqs, dft] = calc_dft(vert_ac, fs, 1, N);
+    [freqs, dft] = calc_dft(vert_ac, fs, N);
     
     % remove non-positive values to discard duplicate values
     dft = dft(freqs > 0);
