@@ -30,10 +30,8 @@ function steps_per_min = calc_steps_per_min(data, freq, fs, thres_ref)
     % relevant value to be the number of steps per minute
     threshold = max(dft) * thres_ref;
     [~, peaks_indexes] = findpeaks(dft, 'MinPeakHeight', threshold);
-    aux = peaks_indexes(1);
-    display(peaks_indexes)
-    
-    steps_per_min =aux;
+    peak_index = peaks_indexes(1);
+    steps_per_min = freqs(peak_index) * 60;
     
 end
     
