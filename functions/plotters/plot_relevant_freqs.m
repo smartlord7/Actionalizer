@@ -1,3 +1,17 @@
+%{
+@def plot_relevant_freqs
+@brief
+
+@param freqs
+
+@param act_dfts
+
+@param act_names
+Vector with names atributed to each activity.
+
+@param threshold
+
+%}
 function plot_relevant_freqs(freqs, act_dfts, act_names, threshold)
     figure;
 

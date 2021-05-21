@@ -1,3 +1,31 @@
+%{
+@def calc_steps_users
+@brief Function that calculates the average steps per minute and correspondent
+      standard deviation in all of the dynamic activies for the first N users.
+
+@param datasets
+Datasets describing the experiences performed by the users.
+
+@param fs
+Sample frequency used when capturing the data values.
+
+@param min_freq
+Minimal frequency to consider when applying a low-pass filter to the data.
+
+@param thres_ref
+Threshold reference to consider when discarding lower frequencies.
+
+@param num_users
+Number of users to consider.
+
+@param dynamic_acts
+Vector with the indexes associated with the dynamics activities considered.
+
+@param labels
+Vector with labels describing the experiences performed by the users.
+
+@return steps_table - table containing the values obtained.
+%}
 function steps_table = calc_steps_users(datasets, fs, min_freq, thres_ref, num_users, dynamic_acts, labels) 
     
     users = 1:1:num_users;
@@ -39,6 +67,7 @@ function steps_table = calc_steps_users(datasets, fs, min_freq, thres_ref, num_u
         
     end
     
+    % for table formating reasons
     USER = users';
     WALK_MEAN = walk_avgs';
     WALK_STD = walk_stds';
@@ -47,5 +76,6 @@ function steps_table = calc_steps_users(datasets, fs, min_freq, thres_ref, num_u
     WALK_DOWN_MEAN = walk_down_avgs';
     WALK_DOWN_STD = walk_down_stds';
     
+    % create table with the values calculated
     steps_table = table(USER, WALK_MEAN, WALK_STD, WALK_UP_MEAN, WALK_UP_STD, WALK_DOWN_MEAN, WALK_DOWN_STD);
 end

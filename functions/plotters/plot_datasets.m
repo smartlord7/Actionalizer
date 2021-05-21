@@ -1,7 +1,27 @@
+%{
+@def plot_datasets
+@brief Function that plots the dataset describing the experiences.
+
+@param datasets
+Datasets to containing the values obtained in the experiences.
+
+@param fs
+Sample frequency used when capturing the values on the dataset.
+
+@param labels
+Vector with labels describing the experiences performed by the users.
+
+@param activities
+Vector with names atributed to each activity.
+
+@param act_colors
+Vector with color RGB codes to assign to mark each activity.
+%}
 function plot_datasets(datasets, fs, labels, activities, act_colors)
     len = length(datasets);
     ts = 1/fs;
    
+    % consider all of the activities present in the datasets
     for i = 1:len
         figure;
         dataset = cell2mat(datasets(i));
@@ -10,6 +30,7 @@ function plot_datasets(datasets, fs, labels, activities, act_colors)
        
         exp = i;
         
+        % consider each of the three dimensions for each activity
         for k = 1:3
             y_lbl = sprintf('ACC angle - %s (m/s^2)', get_axis_name(k));
             

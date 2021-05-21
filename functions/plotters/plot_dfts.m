@@ -1,3 +1,16 @@
+%{
+@def plot_dfts
+@brief Function that plots the DFTs calculated from the datasets.
+
+@param datasets
+Datasets to containing the values obtained in the experiences.
+
+@param fs
+Sample frequency used when capturing the values on the dataset.
+
+@param labels
+Vector with labels describing the experiences performed by the users.
+%}
 function plot_dfts(datasets, fs, labels)
    len = size(datasets, 1);
    label_i = 1;

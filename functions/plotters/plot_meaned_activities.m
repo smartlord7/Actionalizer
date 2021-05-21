@@ -1,3 +1,16 @@
+%{
+@def plot_meaned_activities
+@brief
+
+@param acts
+Datasets to containing the values obtained in the experiences.
+
+@param axis
+Sample frequency used when capturing the values on the dataset.
+
+@param act_names
+Vector with names atributed to each activity.
+%}
 function plot_meaned_activities(acts, axis, act_names)
     figure;
 

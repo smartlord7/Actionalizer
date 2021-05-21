@@ -1,3 +1,20 @@
+%{
+@def plot_meaned_dfts
+@brief
+
+@param freqs
+
+@param meaned_dfts
+
+@param num_ocurrences
+
+@param activities
+
+@param activities
+
+@param axis
+
+%}
 function plot_meaned_dfts(freqs, meaned_dfts, num_ocurrences, activities, axis)
     for i = 1:length(activities)
         plot(cell2mat(freqs(i)), cell2mat(meaned_dfts(i)));

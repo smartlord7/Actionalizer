@@ -1,19 +1,41 @@
-function plot_stft(x, fs, window_type, window_size, overlap_size)
+%{
+@def plot_stft
+@brief Function that calculates the STFTs from the datasets and plots the results.
+
+@param dataset
+Dataset to use on STFT calculation.
+
+@param fs
+Sample frequency used when capturing the values on the dataset.
+
+@param window_type
+The type of window to apply to the dataset.
+
+@param window_size
+The size of each window to consider.
+
+@param overlap_size
+The size of overlaping to consider on the window application to the
+dataset.
+%}
+function plot_stft(dataset, fs, window_type, window_size, overlap_size)
     figure;
     
     axis_type = ["X", "Y", "Z"];
     
+    % plot the stft for in all of the three dimensions (x, y, z)
     for k = 1:3
-        [relev_freqs, relev_mags, times] = calc_stft(x(:,k), fs, window_type, window_size, overlap_size);
+        [relev_freqs, relev_mags, times] = calc_stft(dataset(:,k), fs, window_type, window_size, overlap_size);
         subplot(3,1,k)
         plot(times/60, relev_freqs, 'o');
         plt_title = sprintf('STFT %s', axis_type(k));
         title(plt_title);
     end
     
+    % plot the spectrogram for the stft for in all of the three dimensions (x, y, z)
     for k = 1:3
         figure;
-        spectrogram(x(:,k), window_size*fs, overlap_size*fs, 'yaxis');
+        spectrogram(dataset(:,k), window_size*fs, overlap_size*fs, 'yaxis');
         plt_title = sprintf('STFT %s', axis_type(k));
         title(plt_title);
     end

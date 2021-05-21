@@ -1,4 +1,22 @@
-function steps_per_min = calc_steps_per_min(data, freq, fs, thres_ref)
+%{
+@def steps_per_min
+@brief Function that calculates steps per minute per instance of activity.
+
+@param data
+Data used on the calculation.
+
+@param min_freq
+Minimal frequency to consider when applying a low-pass filter.
+
+@param fs
+Sample frequency used when capturing the data values.
+
+@param thres_ref
+Threshold reference to consider when discarding lower frequencies.
+
+@return steps_per_min - number of steps per minutes calculated.
+%}
+function steps_per_min = calc_steps_per_min(data, min_freq, fs, thres_ref)
     
     % obtain the number of data entries and the number of components
     % considered
@@ -14,7 +32,7 @@ function steps_per_min = calc_steps_per_min(data, freq, fs, thres_ref)
     % from total acceleration measured by the accelerometer on all of the
     % dimensions
     for i=1:num_of_dim
-        grav_ac(i,:) = lowpass(data(:, i), freq, fs);
+        grav_ac(i,:) = lowpass(data(:, i), min_freq, fs);
         user_ac(i, :) = data(:, i)'- grav_ac(i, :);
     end
     % calculate vertical acceleration
