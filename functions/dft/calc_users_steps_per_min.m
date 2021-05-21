@@ -1,4 +1,33 @@
-function steps_table = calc_steps_users(datasets, fs, min_freq, thres_ref, num_users, dynamic_acts, labels) 
+%{
+@def calc_steps_users
+@brief Function that calculates the average steps per minute and correspondent
+      standard deviation in all of the dynamic activies for the first N users.
+
+@param datasets
+Datasets describing the experiences performed by the users.
+
+@param fs
+Sample frequency used when capturing the data values.
+
+@param min_freq
+Minimal frequency to consider when applying a low-pass filter to the data.
+
+@param thres_ref
+Threshold reference to consider when discarding lower frequencies.
+
+@param num_users
+Number of users to consider.
+
+@param dynamic_acts
+Vector with the indexes associated with the dynamics activities considered.
+
+@param labels
+Vector with labels describing the experiences performed by the users.
+
+@return steps_table - table containing the values obtained.
+%}
+
+function steps_table = calc_users_steps_per_min(datasets, fs, min_freq, thres_ref, num_users, dynamic_acts, labels) 
     
     users = 1:1:num_users;
     
@@ -16,7 +45,7 @@ function steps_table = calc_steps_users(datasets, fs, min_freq, thres_ref, num_u
         %calculate the average steps per minute and standard deviation for
         %the WALK activity
         walk_data = user_acts{1};
-        [mean_value, std_value] = calc_steps_per_minute_per_act(walk_data, min_freq, fs, thres_ref);
+        [mean_value, std_value] = calc_act_steps_per_min(walk_data, min_freq, fs, thres_ref);
         
         walk_avgs = [walk_avgs, mean_value];
         walk_stds = [walk_stds, std_value];
@@ -24,7 +53,7 @@ function steps_table = calc_steps_users(datasets, fs, min_freq, thres_ref, num_u
         %calculate the average steps per minute and standard deviation for
         %the WALK_UP activity
         walk_up_data = user_acts{2};
-        [mean_value, std_value] = calc_steps_per_minute_per_act(walk_up_data, min_freq, fs, thres_ref);
+        [mean_value, std_value] = calc_act_steps_per_min(walk_up_data, min_freq, fs, thres_ref);
         
         walk_up_avgs = [walk_up_avgs, mean_value];
         walk_up_stds = [walk_up_stds, std_value];
@@ -32,7 +61,7 @@ function steps_table = calc_steps_users(datasets, fs, min_freq, thres_ref, num_u
         %calculate the average steps per minute and standard deviation for
         %the WALK_DOWN activity
         walk_down_data = user_acts{3};
-        [mean_value, std_value] = calc_steps_per_minute_per_act(walk_down_data, min_freq, fs, thres_ref);
+        [mean_value, std_value] = calc_act_steps_per_min(walk_down_data, min_freq, fs, thres_ref);
         
         walk_down_avgs = [walk_down_avgs, mean_value];
         walk_down_stds= [walk_down_stds, std_value];
