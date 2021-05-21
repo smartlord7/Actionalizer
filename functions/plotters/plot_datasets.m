@@ -1,5 +1,3 @@
-
-
 function plot_datasets(datasets, fs, labels, activities, act_colors)
     len = length(datasets);
     ts = 1/fs;

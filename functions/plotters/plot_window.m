@@ -4,7 +4,8 @@ function plot_window(win_func, win_size, win_name)
     figure;
     
     plot(1:win_size, win);
-    title(win_name)
-    
+    title(win_name);
+    xlabel('N')
+    ylabel('W(N)');
 end
 

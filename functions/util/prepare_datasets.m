@@ -40,11 +40,11 @@ function [num_act_ocurrences, acts_means, dft_freqs, dft_means] = prepare_datase
                act_padded = [act_frag ; zeros(transition_act_size - l, 1)];
            end          
 
-           [f, m_x] = calc_dft(act_padded, fs, start - finish);
+           [f, m_x] = calc_dft(act_padded, fs, 1, length(act_padded));
 
            if num_act_ocurrences(act) == 1
                acts_means(act) = {act_padded};
-               dft_freqs(act) = {f(1:end - 1)};
+               dft_freqs(act) = {f(1:end)};
                dft_means(act) = {m_x};
            else
                acts_means(act) = {cell2mat(acts_means(act)) + act_padded};
