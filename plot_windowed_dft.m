@@ -1,3 +1,4 @@
+
 %{
 @def plot_windowed_dft
 @brief Function that plots a given windowed dft.

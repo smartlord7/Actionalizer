@@ -26,7 +26,7 @@ function [mean_value, std_value] = calc_act_steps_per_min(data, min_freq, fs, th
         data_x = data{i}(:, 1);
         data_y = data{i}(:, 2);
         data_z = data{i}(:, 3);
-        values = [values, calc_steps_per_min([data_x, data_y, data_z], freq, fs, thres_ref)];
+        values = [values, calc_steps_per_min([data_x, data_y, data_z], min_freq, fs, thres_ref)];
     end
     mean_value = mean(values);
     std_value = std(values);

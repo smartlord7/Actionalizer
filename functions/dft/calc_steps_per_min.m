@@ -35,6 +35,7 @@ function steps_per_min = calc_steps_per_min(data, min_freq, fs, thres_ref)
         grav_ac(i,:) = lowpass(data(:, i), min_freq, fs);
         user_ac(i, :) = data(:, i)'- grav_ac(i, :);
     end
+
     % calculate vertical acceleration
     vert_ac = dot(grav_ac, user_ac);
     

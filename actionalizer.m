@@ -1,36 +1,5 @@
-%{
-@def actionalizer
-@brief Function to recognize different type of activities for a given dataset.
 
-@param dataset
-Dataset to apply slide window and identify the present activities in time.
-
-@param fs
-Sample frequency used capturing the values on the dataset.
-
-@param window_type
-The type of window to apply to the dataset.
-
-@param window_size
-The size of each window to consider.
-
-@param overlap_size
-The size of overlaping to consider on the window application to the dataset.
-
-@param freqs
-Cell of the average frequences of all datasets for each action
-
-@param dfts
-Cell of the average magnitudes of all datasets for each action
-
-@param slopes
-Cell of the average slopes of all datasets for each action
-
-@param activities
-Array with activitie names
-%}
 function actionalizer(dataset, fs, window_type, window_size, overlap_size, freqs, dfts, slopes, activities)
-    % Possible factors to balance the component factor
     mag_factor = 1;
     freq_factor = 1;
     slope_factor = 1;
@@ -41,7 +10,6 @@ function actionalizer(dataset, fs, window_type, window_size, overlap_size, freqs
     n_frame = round(window_size * fs);
     n_overlap = round(overlap_size * fs);
     
-    % Get the frequence vector
     if mod(n_frame, 2) == 0
         f_frame = -fs/2:fs/n_frame:fs/2-fs/n_frame;
     else
@@ -53,8 +21,6 @@ function actionalizer(dataset, fs, window_type, window_size, overlap_size, freqs
     default_mag = zeros(3, 12);
     default_slope = zeros(3, 12);
     
-    % Get the max frequence, magnitude and slopes for each action and
-    % dimension (x, y, z)
     for i = 1:12
         for k = 1:3
             default_freq(k, i) = max(freqs{k}{i});
@@ -65,18 +31,15 @@ function actionalizer(dataset, fs, window_type, window_size, overlap_size, freqs
     
     window = window_type(n_frame);
     
-    % Time vector (seconds)
     t = 0:ts:(N-1)*ts;
     
     for i = 1:n_frame-n_overlap:N-n_frame+1
         interval = i:i+n_frame-1;
         
-        % Get the frames for each dimension
         x_frame_x = dataset(interval, 1);
         x_frame_y = dataset(interval, 2);
         x_frame_z = dataset(interval, 3);
 
-           
         slope_x = get_abs_slope(interval, x_frame_x);
         slope_y = get_abs_slope(interval, x_frame_y);
         slope_z = get_abs_slope(interval, x_frame_z);

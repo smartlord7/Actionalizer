@@ -1,9 +1,10 @@
+
 %{
 @def plot_meaned_activities
 @brief Function that plots the mean of all activities instances.
 
 @param acts
-Datasets containing the values obtained in the experiences.
+Datasets to containing the values obtained in the experiences.
 
 @param axis
 Sampling frequency used when capturing the values on the dataset.
@@ -25,4 +26,3 @@ function plot_meaned_activities(acts, axis, act_names)
     main_ttl = sprintf('Meaned activities - AXIS: %s', get_axis_name(axis));
     sgtitle(main_ttl);
 end
-
