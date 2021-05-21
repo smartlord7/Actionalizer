@@ -1,64 +1,66 @@
 
+%{
+@def plot_datasets
+@brief Function that plots the dataset describing the experiences.
 
-function [num_act_ocurrences, acts_means, dft_freqs, dft_means] = prepare_datasets(datasets, dim, fs, unif_sizes, labels, activities)
-   num_act = length(activities);
-   dft_means = cell(1, num_act);
-   dft_freqs = cell(1, num_act);
-   acts_means = cell(1, num_act);
-   num_act_ocurrences = zeros(1, num_act);
-   min_act_size = zeros(1, num_act);
-   dyn_act_size = unif_sizes(1);
-   static_act_size = unif_sizes(2);
-   transition_act_size = unif_sizes(3);
-    
-   len = length(datasets);
+@param datasets
+Datasets to containing the values obtained in the experiences.
+
+@param fs
+Sample frequency used when capturing the values on the dataset.
+
+@param labels
+Vector with labels describing the experiences performed by the users.
+
+@param activities
+Vector with names atributed to each activity.
+
+@param act_colors
+Vector with color RGB codes to assign to mark each activity.
+%}
+function plot_datasets(datasets, fs, labels, activities, act_colors)
+    len = length(datasets);
+    ts = 1/fs;
    
-   for i = 1:len
-       dataset = cell2mat(datasets(i));
+    % consider all of the activities present in the datasets
+    for i = 1:len
+        figure;
+        dataset = cell2mat(datasets(i));
+
+        indexes = find(labels(:,1) == i);
        
-       indexes = find(labels(:, 1) == i);
+        exp = i;
+        
+        % consider each of the three dimensions for each activity
+        for k = 1:3
+            y_lbl = sprintf('ACC - %s (m/s^2)', get_axis_name(k));
+            
+            subplot(3, 1, k);
+            plot(ts/60:ts/60:(length(dataset) * ts)/60, dataset(:, k), 'k');
+            ylabel(y_lbl);
+            xlabel('Time (min)')
            
-       for j=1:length(indexes)
-           index = indexes(j);
-           act = labels(index, 3);
-           start = labels(index, 4);
-           finish = labels(index, 5);
+            hold on
 
-           act_frag = dataset(start:finish, dim);
+            for j=1:length(indexes)
+                index = indexes(j);
+                user = labels(index, 2);
+                act = labels(index, 3);
+                start = labels(index, 4);
+                finish = labels(index, 5);
+                
+                x = start * ts/60:ts/60:finish * ts/60;
+                y_point = mean(dataset(start:finish, k)) + 0.7 * (-1)^index;
+                color_hex = char(act_colors(act));
+                color = sscanf(color_hex(2:end),'%2x%2x%2x',[1 3])/255;
+                
+                plot(x, dataset(start:finish, k), 'Color', color);
+                text(start*ts/60, y_point, activities(act),'Fontsize', 7);
+                plt_title = sprintf('Experience %d, User %d', exp, user);
+                sgtitle(plt_title);
+            end
 
-           num_act_ocurrences(act) = num_act_ocurrences(act) + 1;
-           l = size(act_frag, 1);
-           
-           if l < min_act_size(act) || min_act_size(act) == 0 
-               min_act_size(act) = l;
-           end
-
-           if act < 4
-               act_padded = [act_frag ; zeros(dyn_act_size - l, 1)];
-           elseif act < 6
-               act_padded = [act_frag ; zeros(static_act_size - l, 1)];    
-           else
-               act_padded = [act_frag ; zeros(transition_act_size - l, 1)];
-           end          
-
-           [f, m_x] = calc_dft(act_padded, fs, 1, length(act_padded));
-
-           if num_act_ocurrences(act) == 1
-               acts_means(act) = {act_padded};
-               dft_freqs(act) = {f(1:end)};
-               dft_means(act) = {m_x};
-           else
-               acts_means(act) = {cell2mat(acts_means(act)) + act_padded};
-               dft_means(act) = {cell2mat(dft_means(act)) + m_x};   
-           end
-       end
-  
-   end
-   
-   for i = 1:length(activities)
-       dft_means(i) = {cell2mat(dft_means(i)) / num_act_ocurrences(i)};
-       values = cell2mat(acts_means(i));
-       acts_means(i) = {values / num_act_ocurrences(i)};
-       acts_means(i) = {values(1:min_act_size(i))};
-   end
+            hold off;
+        end
+    end
 end

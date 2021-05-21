@@ -26,8 +26,10 @@ function plot_stft(dataset, fs, window_type, window_size, overlap_size)
         [relev_freqs, ~, times] = calc_stft(dataset(:,k), fs, window_type, window_size, overlap_size);
         subplot(3,1,k)
         plot(times/60, relev_freqs, 'o');
-        plt_title = sprintf('AXIS %s', get_axis_name(k));
+        plt_title = sprintf('AXIS: %s', get_axis_name(k));
         title(plt_title);
+        xlabel('Time (s)');
+        ylabel('Frequency (Hz)');
     end
     
     % plot the spectrogram for the stft for in all of the three dimensions (x, y, z)

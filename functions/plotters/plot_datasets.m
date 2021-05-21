@@ -32,7 +32,7 @@ function plot_datasets(datasets, fs, labels, activities, act_colors)
         
         % consider each of the three dimensions for each activity
         for k = 1:3
-            y_lbl = sprintf('ACC angle - %s (m/s^2)', get_axis_name(k));
+            y_lbl = sprintf('ACC - %s (m/s^2)', get_axis_name(k));
             
             subplot(3, 1, k);
             plot(ts/60:ts/60:(length(dataset) * ts)/60, dataset(:, k), 'k');
